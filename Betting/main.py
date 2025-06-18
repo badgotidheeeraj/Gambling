@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException,FastAPI
+
 from sqlalchemy.orm import Session
 from configdb.connection import get_db
 from modelDB.datascript import UserProfile
@@ -31,6 +32,23 @@ def correction(payload: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     return {"message": "User added!", "user_id": new_user.id}
+
+
+@router.put("/update/{id}")
+def update_user(id: int, db: Session = Depends(get_db)):
+    user = db.query(UserProfile).filter(UserProfile.id == id).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Example of updating some fields manually:
+    user.first_name = "Updated Name"
+    user.phone = "0000000000"
+    
+    db.commit()
+    db.refresh(user)
+    
+    return {"message": "User updated!", "user_id": id}
 
 
 app.include_router(router)
