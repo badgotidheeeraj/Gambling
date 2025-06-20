@@ -20,9 +20,8 @@ class GameStatus(enum.Enum):
 
 class Games(Base):
     __tablename__ = "games"
-
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
     game_type = Column(Enum(GameType), nullable=False)
-    status = Column(Enum(GameStatus), nullable=True)  # Nullable if you want to allow missing
+    status = Column(Enum(GameStatus), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

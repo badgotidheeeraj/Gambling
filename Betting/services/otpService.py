@@ -36,10 +36,7 @@ class OtpVerify:
 
         db.commit()
         return {"username": username, "otp": otp_code}
-    
-    
-    
-    
+
     @staticmethod
     def verify_otp(username, otp_input, db: Session, expiry_minutes=5):
         user = db.query(Users).filter_by(username=username).first()

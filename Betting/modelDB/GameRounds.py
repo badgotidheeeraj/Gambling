@@ -1,22 +1,13 @@
-import uuid
-from sqlalchemy import Column, String, Integer, DateTime, Enum, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Boolean
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-import enum
+import uuid
+from datetime import datetime
 
-Base = declarative_base()
-
-class RoundStatus(enum.Enum):
-    open = "open"
-    closed = "closed"
-    settled = "settled"
-
-class GameRounds(Base):
-    __tablename__ = "game_rounds"
-
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    game_id = Column(UUID(as_uuid=True), ForeignKey("games.id"), nullable=False)
-    round_number = Column(Integer, nullable=False)
-    status = Column(Enum(RoundStatus), nullable=False)
-    started_at = Column(DateTime, nullable=True)
-    ended_at = Column(DateTime, nullable=True)
+class GameRound(Base):
+    __tablename__ = 'game_rounds'    
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    crash_multiplier = Column(Float, nullable=False) 
+        
+    bets = relationship("Bet", back_populates="round")

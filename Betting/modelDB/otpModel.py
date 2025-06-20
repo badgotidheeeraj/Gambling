@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 import uuid
 
-from modelDB.userloginmodel import Users, Base  
+from modelDB.userloginmodel import Base  
 from configdb.connection import engine
 
 class Otp(Base):

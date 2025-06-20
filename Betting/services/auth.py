@@ -3,14 +3,11 @@ from typing import Optional
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 
-# Constants for JWT
 SECRET_KEY = "nainitalchaltehai"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 class JWTToken:
     @staticmethod
